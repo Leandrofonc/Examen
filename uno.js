@@ -1,112 +1,107 @@
-/*
-1)De 5  personas que ingresan al hospital se deben tomar y 
-validar los siguientes datos.
-nombre ,peso, sexo y edad.
-a)informar la cantidad de mujeres.
-b)la edad promedio en total.
-c)el hombre mas pesado.
-pedir datos por prompt y mostrar por document.write o console.log
-*/
-function mostrar()
-{
 
-var contador;
-var nombreIngresado;
-var pesoIngresado;
-var edadIngresada;
-var sexoIngresado;
-var acumuladorEdad;
-var contadorMujeres;
-var promedioEdadTotal;
-var banderaDelMasPesado;
-var pesoDelMasPesado;
-var nombreDelMasPesado;
-
-
-acumuladorEdad=0;
-banderaDelMasPesado=true;
-contadorMujeres=0;
-contador=0;
+function mostrar() {
+	var nombre;
+	var tipo;
+	var precio;
+	var cantidad;
+	var inflamable;
+	var marca;
+	var contAlcohol = 0;
+	var contIac = 0;
+	var contQuat = 0;
+	var acumAlcohol = 0;
+	var acumIac = 0;
+	var acumQuat = 0;
+	var promAlcohol = 0;
+	var promIac = 0;
+	var promQuat = 0;
+	var maxInflamableValor = false;
+	var maxInflamableLiteral;
+	var acumIacValor = 0;
+	var maxPrecio = false;
+	var marcaLiteral;
 
 
-	for(contador=0;contador<3;contador++)
-	{
-		sexoIngresado=prompt("ingrese el sexo");
-		while(isNaN(sexoIngresado)==false || sexoIngresado!="femenino" && sexoIngresado!="masculino" && sexoIngresado!="no binario")
-		{
-			sexoIngresado=prompt("error, reingrese femenino, masculino o no binario");
+
+
+	for (var i = 0; i < 2; i++) {
+
+		nombre = prompt("ingrese el nombre del producto");
+		//TIPO
+		tipo = prompt("ingrese tipo de producto(alcohol,iac,quat)");
+		while (tipo != "alcohol" && tipo != "iac" && tipo != "quat") {
+			tipo = prompt("Dato incorrecto, por favor vuelva a introducir tipo de producto(alcohol,iac,quat)");
+		}
+		//PRECIO
+		precio = prompt("ingrese el precio del producto (Entre 100 y 300)");
+		precio = parseInt(precio);
+		while (isNaN(precio) || precio < 100 || precio > 300) {
+			precio = prompt("Dato incorrecto, por favor vuelva a ingresar el precio (Entre 100 y 300)");
+			precio = parseInt(precio);
+		}
+		//CANTIDAD
+		cantidad = prompt("ingrese la cantidad de unidades(Entre 1 y 1000)");
+		cantidad = parseInt(cantidad);
+		while (isNaN(cantidad) || cantidad < 1 || cantidad > 1000) {
+			cantidad = prompt("Dato incorrecto, por favor vuelva a ingresar el precio (Entre 1 y 1000)");
+			cantidad = parseInt(cantidad);
+		}
+		//INFLAMABLE
+		inflamable = prompt("ingrese el tipo de inflamable (ignifugo,combustible, explosivo)");
+		while (inflamable != "ignifugo" && inflamable != "combustible" && inflamable != "explosivo") {
+			inflamable = prompt("Dato incorrecto, ingrese el tipo de inflamable (ignifugo,combustible, explosivo)");
+		}
+		marca = prompt("ingrese la marca del producto");
+
+		switch (tipo) {
+			case "alcohol":
+				contAlcohol++;
+				acumAlcohol += cantidad;
+				break;
+			case "iac":
+				contIac++;
+				acumIac += cantidad;
+				break;
+			case "quat":
+				contQuat++;
+				acumQuat += cantidad;
+				break;
+
+		}
+		if (maxInflamableValor == false) {
+			maxInflamableValor = cantidad;
+			maxInflamableLiteral = inflamable;
+		} else if (cantidad > maxInflamableValor) {
+			maxInflamableValor = cantidad;
+			maxInflamableLiteral = inflamable;
 		}
 
-		pesoIngresado=prompt("ingrese el peso");
-		pesoIngresado=parseInt(pesoIngresado);
-		while(isNaN(pesoIngresado)==true || pesoIngresado<0|| pesoIngresado>150)
-		{
-			pesoIngresado=prompt("error, reingrese un peso valido");
-			pesoIngresado=parseInt(pesoIngresado);
-		}
-		
-		nombreIngresado=prompt("ingrese el nombre");		
-		while(isNaN(nombreIngresado)==false)
-		{
-			nombreIngresado=prompt("error, reingrese un nombre valido");			
+		if (tipo == "iac" && precio <= 200) {
+			acumIacValor += cantidad;
 		}
 
-		edadIngresada=prompt("ingrese la edad");
-		edadIngresada=parseInt(edadIngresada);
-		while(isNaN(edadIngresada)==true || edadIngresada<0 || edadIngresada>110)
-		{
-			edadIngresada=prompt("error, reingrese una edad valida");
-			edadIngresada=parseInt(edadIngresada);
+		if (maxPrecio == false) {
+			maxPrecio = precio;
+			marcaLiteral = "tipo: " + tipo + " marca; " + marca;
+		} else if (precio > maxPrecio) {
+			maxPrecio = precio;
+			marcaLiteral = "tipo: " + tipo + " marca; " + marca;
 		}
-
-		switch(sexoIngresado)
-		{
-			case "femenino":
-			contadorMujeres++;
-			break;
-		}
-
-		if(sexoIngresado=="masculino")
-		{
-			if(banderaDelMasPesado==true)
-			{
-				pesoDelMasPesado=pesoIngresado;
-				nombreDelMasPesado=nombreIngresado;
-				banderaDelMasPesado=false;
-			}
-			else
-			{
-				if(pesoDelMasPesado<pesoIngresado)
-				{
-					pesoDelMasPesado=pesoIngresado;
-					nombreDelMasPesado=nombreIngresado;
-				}
-			}
-		}
-
-	acumuladorEdad=acumuladorEdad+edadIngresada;
 
 	}
+	//FUERA DEL FOR
+	promAlcohol = acumAlcohol / contAlcohol;
+	promIac = acumIac / contIac;
+	promQuat = acumQuat / contQuat;
 
-	promedioEdadTotal=acumuladorEdad/contador;
-	
-	console.log("la edad promedio es: "+promedioEdadTotal);
 
-	if(contadorMujeres==0)
-	{
-		console.log("no se ingresaron mujeres");
-	}
-	else
-	{
-		console.log("La cantidad de mujeres es: "+contadorMujeres);
-	}
 
-	if(banderaDelMasPesado==true)
-	{
-		console.log("no se ingresaron hombres");
-	}
-	else
-	{
-		console.log("el hombre mas pesado es: "+nombreDelMasPesado);
-	}
+
+	//INFORME
+	document.write("El promedio de cantidad de alcohol es: " + promAlcohol + "<br>");
+	document.write("El promedio de cantidad de iac es: " + promIac + "<br>");
+	document.write("El promedio de cantidad de quat es: " + promQuat + "<br>" + "<br>");
+	document.write("El tipo inflamable con mas cantidad de unidades en total es: " + maxInflamableLiteral + ",cantidad: " + cantidad + "<br><br>");
+	document.write("Las unidades de IAC con precio menor a 200 (inclusive) vendidas fueron :" + acumIacValor + "<br><br>");
+	document.write("La marca y el tipo del mas caro de los productos son: "+ marcaLiteral+ "y el precio es: "+maxPrecio);
 }
